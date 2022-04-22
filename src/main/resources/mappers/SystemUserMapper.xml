@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.service.SystemUserMapper">
+  <resultMap id="BaseResultMap" type="com.example.pojo.SystemUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="userName" jdbcType="VARCHAR" property="userName" />
+    <id column="phone" jdbcType="VARCHAR" property="phone" />
+    <id column="email" jdbcType="VARCHAR" property="email" />
+    <id column="idCard" jdbcType="VARCHAR" property="idCard" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="hobby" jdbcType="VARCHAR" property="hobby" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="displayName" jdbcType="VARCHAR" property="displayName" />
+    <result column="realName" jdbcType="VARCHAR" property="realName" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, userName, phone, email, idCard, gender, hobby, address, displayName, realName, 
+    createDate, remark
+    from sys_user
+  </select>
+
+  <select id="selectById" parameterType="Integer" resultMap="BaseResultMap">
+    select id, userName, phone, email, idCard, gender, hobby, address, displayName, realName,
+           createDate, remark
+    from sys_user
+    where id= #{id}
+  </select>
+
+  <select id="selectByUsername" resultMap="BaseResultMap">
+    select id, userName, phone, email, idCard, gender, hobby, address, displayName, realName,
+           createDate, remark
+    from sys_user
+    where userName= #{userName}
+  </select>
+
+  <update id="transactionA">
+    update sys_user
+        <trim prefix="set" suffixOverrides=",">
+          <if test="phone != null">
+            phone = #{phone},
+          </if>
+          <if test="email != null">
+            email = #{email},
+          </if>
+          <if test="idCard != null">
+            idCard = #{idCard},
+          </if>
+          <if test="gender != null">
+            gender = #{gender},
+          </if>
+        </trim>
+    where id = #{id}
+  </update>
+
+  <cache readOnly="true"/>
+</mapper>
